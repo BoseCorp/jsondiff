@@ -88,6 +88,20 @@ func Compare(a, b interface{}) Diff {
 	return compareStringMaps(mapA, mapB)
 }
 
+// CompareBytes produces list of diff items that define difference between
+// JSON encoded bytes "a" and "b".
+// Note: if objects are equal, all diff items will have Resolution of
+// type TypeEquals
+func CompareBytes(a, b []byte) Diff {
+	mapA := map[string]interface{}{}
+	mapB := map[string]interface{}{}
+
+	json.Unmarshal(a, &mapA)
+	json.Unmarshal(b, &mapB)
+
+	return compareStringMaps(mapA, mapB)
+}
+
 // Format produces formatted output for a diff that can be printed.
 // Uses colourization which may not work with terminals that don't
 // support ASCII colouring (Windows is under question).
